@@ -5,6 +5,7 @@ import edu.lpq.alallsf.bean.MyBeanWithDependency;
 import edu.lpq.alallsf.component.ComponentDependency;
 import edu.lpq.alallsf.entity.Users;
 import edu.lpq.alallsf.repository.UserRepository;
+import edu.lpq.alallsf.services.UserService;
 import edu.lpq.alallsf.utils.UserData;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -29,6 +30,8 @@ public class AlAllSfApplication implements CommandLineRunner {
 	private MyBeanWithDependency myBeanWithDependency;
 	private UserData userData;
 	private UserRepository userRepository;
+	private UserService userService;
+	
 
 	/**
 	 * Esta anotación @Qualifier("componentTwoImplement") permite
@@ -44,12 +47,14 @@ public class AlAllSfApplication implements CommandLineRunner {
 							  MyBean myBean,
 							  MyBeanWithDependency myBeanWithDependency,
 							  UserData userData,
-							  UserRepository userRepository){
+							  UserRepository userRepository,
+							  UserService userService){
 		this.componentDependency = componentDependency;
 		this.myBean	= myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
 		this.userData = userData;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(AlAllSfApplication.class, args);
@@ -58,6 +63,8 @@ public class AlAllSfApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		saveUserInDB();
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		getInformationJpqlFromUser();
 	}
 
 	private void saveUserInDB(){
@@ -112,35 +119,64 @@ public class AlAllSfApplication implements CommandLineRunner {
 
 		List<Users> listUsers = Arrays.asList(user1,user2,user3,user4,user5,
 				user6,user7,user8,user9,user10,user11,user12);
-		System.out.println(">>>>>>>>>>>>>>>>>> 1.1- Iniciando carga datos...");
+		System.out.println(">>>>>>>>>>>>>>>>>> 1- Iniciando carga datos...");
 		listUsers.stream()
 				.forEach(userRepository::save);
-		System.out.println(">>>>>>>>>>>>>>>>>> 2-2- Finalizando carga datos...");
-		System.out.println(">>>>>>>>>>>>>>>>>> 2.1 Iniciando consulta de User...");
-		getInformationJpqlFromUser();
-		System.out.println(">>>>>>>>>>>>>>>>>> 2.2 Finalizando carga datos...");
-		
+		System.out.println(">>>>>>>>>>>>>>>>>> 2- Finalizando carga datos...");
 	}
 
 	private void getInformationJpqlFromUser(){
-		String email = "user10@clarape.co";
-		Optional<Users> res = Optional.ofNullable(userRepository.findByUserEmail(email)
-				.orElseThrow(() -> new RuntimeException("No se encontró el usuario")));
+		//String email = "user10@clarape.co";
 		
-				LOGGER.info("######### method::findByUserEmail::"+ email +"::" + (res.isPresent() ? ((Users)res.get()).toString() : "no hay nada"));
-
-		userRepository.findAndSort("user1", Sort.by("id").descending())
-			.stream()
-			.forEach(user -> LOGGER.info("=====Usuario del metodo ::findAndSort::" + user.toString()));
-
+		//$$ Ejercicio #1
+		// Optional<Users> res = Optional.ofNullable(userRepository.findByUserEmail(email)
+		// 		.orElseThrow(() -> new RuntimeException("No se encontró el usuario")));
 		
-		userRepository.findByName("Leonel")	
-			.forEach(user -> LOGGER.info("=====Usuario con query method::" + user.toString()));		
+		// 		LOGGER.info("######### method::findByUserEmail::"+ email +"::" + (res.isPresent() ? ((Users)res.get()).toString() : "no hay nada"));
 
-		LOGGER.info("=====Usuario por findByEmailAndName::" + userRepository.findByEmailAndName("leonel@clarape.co","Leonel")
-			.orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
-		 
+		//$$ Ejercicio #2
+		// userRepository.findAndSort("user1", Sort.by("id").descending())
+		// 	.stream()
+		// 	.forEach(user -> LOGGER.info("=====Usuario del metodo ::findAndSort::" + user.toString()));
+
+		//$$ Ejercicio #3
+		// userRepository.findByName("Leonel")	
+		// 	.forEach(user -> LOGGER.info("=====Usuario con query method::" + user.toString()));		
+
+		//$$ Ejercicio #4
+		// LOGGER.info("=====Usuario por findByEmailAndName::" + userRepository.findByEmailAndName("leonel@clarape.co","Leonel")
+		// 	.orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+
+		//$$ Ejercicio #5
+		// userRepository.findByNameLike("user%")			
+		// .forEach(user -> LOGGER.info("=====findByNameLike::" + user.toString())); 
+
+		//$$ Ejercicio #6
+		// userRepository
+		// 	.findByBirthDateBetween(LocalDate.of(1970, 1, 1), LocalDate.of(1982, 12, 31))
+		// 	.forEach(user -> LOGGER.info("====findByBirthDateBetween:: " + user.toString()));
 				
+		//$$ Ejercicio #7
+		// userRepository
+		// 	.findByNameLikeOrderByIdDesc("%Leonel%")		
+		// 		.forEach(user -> LOGGER.info("======Usuario findByNameLikeOrderByIdDesc:: " + user.toString()));
+
+
+		//$$ Ejercicio #8
+		// userRepository
+		// 	.findByNameContainingOrderByIdDesc("Leo")		
+		// 		.forEach(user -> LOGGER.info("======Usuario findByNameContainingOrderByIdDesc:: " + user.toString()));
+
+
+		//$$ Ejercicio #9
+		// LOGGER.info("=====Usuario por getAllByBirthDateAndEmail::" + userRepository
+		// 	.getAllByBirthDateAndEmail(LocalDate.of(1988, 8, 8), "user8@clarape.co")
+		// 		.orElseThrow(()-> new RuntimeException("No se encontró el usuario por fecha y correo")));
+
+		//$$ Ejercicio #10
+		saveWithErrorTransactional();
+
+
 	}
 	public void runEjemplosAnteriores01(String... args) throws Exception {
 		//Aquí se ejecutan las dependencias
@@ -152,6 +188,27 @@ public class AlAllSfApplication implements CommandLineRunner {
 		//Creación de dependencia que usa otra dependencia
 		myBeanWithDependency.printWithDependency();
 		System.out.println(userData.getEmail() + " -- " + userData.getPassword());
+	}
+
+	private void saveWithErrorTransactional(){
+		Users test1 = new Users("NewUser1","newuser1@clarape.co", LocalDate.of(1991,1,1));
+		Users test2 = new Users("NewUser2","newuser2@clarape.co", LocalDate.of(1992,2,2));
+		Users test3 = new Users("NewUser3","newuser2@clarape.co", LocalDate.of(1993,3,3));
+
+		List<Users> users = Arrays.asList(test1,test2,test3);
+
+		try {
+			userService.saveTransactional(users);	
+		} catch (Exception e) {
+			LOGGER.error("######## Excepción::" + e.getMessage());
+		}
+		
+
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+		userService.getAllUsers()
+			.forEach(user-> 
+				LOGGER.info("=====Usuario dentro del método transaccional: " + user.toString())); 
 	}
 
 
