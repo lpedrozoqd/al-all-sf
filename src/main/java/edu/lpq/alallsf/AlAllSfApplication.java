@@ -123,24 +123,48 @@ public class AlAllSfApplication implements CommandLineRunner {
 	}
 
 	private void getInformationJpqlFromUser(){
-		String email = "user10@clarape.co";
-		Optional<Users> res = Optional.ofNullable(userRepository.findByUserEmail(email)
-				.orElseThrow(() -> new RuntimeException("No se encontró el usuario")));
+		//String email = "user10@clarape.co";
 		
-				LOGGER.info("######### method::findByUserEmail::"+ email +"::" + (res.isPresent() ? ((Users)res.get()).toString() : "no hay nada"));
-
-		userRepository.findAndSort("user1", Sort.by("id").descending())
-			.stream()
-			.forEach(user -> LOGGER.info("=====Usuario del metodo ::findAndSort::" + user.toString()));
-
+		//$$ Ejercicio #1
+		// Optional<Users> res = Optional.ofNullable(userRepository.findByUserEmail(email)
+		// 		.orElseThrow(() -> new RuntimeException("No se encontró el usuario")));
 		
-		userRepository.findByName("Leonel")	
-			.forEach(user -> LOGGER.info("=====Usuario con query method::" + user.toString()));		
+		// 		LOGGER.info("######### method::findByUserEmail::"+ email +"::" + (res.isPresent() ? ((Users)res.get()).toString() : "no hay nada"));
 
-		LOGGER.info("=====Usuario por findByEmailAndName::" + userRepository.findByEmailAndName("leonel@clarape.co","Leonel")
-			.orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
-		 
+		//$$ Ejercicio #2
+		// userRepository.findAndSort("user1", Sort.by("id").descending())
+		// 	.stream()
+		// 	.forEach(user -> LOGGER.info("=====Usuario del metodo ::findAndSort::" + user.toString()));
+
+		//$$ Ejercicio #3
+		// userRepository.findByName("Leonel")	
+		// 	.forEach(user -> LOGGER.info("=====Usuario con query method::" + user.toString()));		
+
+		//$$ Ejercicio #4
+		// LOGGER.info("=====Usuario por findByEmailAndName::" + userRepository.findByEmailAndName("leonel@clarape.co","Leonel")
+		// 	.orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+
+		//$$ Ejercicio #5
+		// userRepository.findByNameLike("user%")			
+		// .forEach(user -> LOGGER.info("=====findByNameLike::" + user.toString())); 
+
+		//$$ Ejercicio #6
+		// userRepository
+		// 	.findByBirthDateBetween(LocalDate.of(1970, 1, 1), LocalDate.of(1982, 12, 31))
+		// 	.forEach(user -> LOGGER.info("====findByBirthDateBetween:: " + user.toString()));
 				
+		//$$ Ejercicio #7
+		// userRepository
+		// 	.findByNameLikeOrderByIdDesc("%Leonel%")		
+		// 		.forEach(user -> LOGGER.info("======Usuario findByNameLikeOrderByIdDesc:: " + user.toString()));
+
+
+		//$$ Ejercicio #8
+		userRepository
+			.findByNameContainingOrderByIdDesc("Leo")		
+				.forEach(user -> LOGGER.info("======Usuario findByNameContainingOrderByIdDesc:: " + user.toString()));
+
+
 	}
 	public void runEjemplosAnteriores01(String... args) throws Exception {
 		//Aquí se ejecutan las dependencias

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +19,21 @@ public interface UserRepository extends JpaRepository<Users,Long> {
     @Query("Select u from Users u where u.name like ?1%")
     List<Users> findAndSort(String name, Sort sort);
     
-    //Esta implementación será usando QueryMethod
+    
     List<Users> findByName(String name);
 
     Optional<Users> findByEmailAndName(String email, String name);
+
+    List<Users> findByNameLike(String name);
+
+    List<Users> findByBirthDateBetween(LocalDate fechaInicio, LocalDate fechaFin);
+
+    
+    List<Users> findByNameLikeOrderByIdDesc(String name);
+
+
+    List<Users> findByNameContainingOrderByIdDesc(String name);
+
 
     
 
