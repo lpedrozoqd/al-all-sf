@@ -193,10 +193,16 @@ public class AlAllSfApplication implements CommandLineRunner {
 	private void saveWithErrorTransactional(){
 		Users test1 = new Users("NewUser1","newuser1@clarape.co", LocalDate.of(1991,1,1));
 		Users test2 = new Users("NewUser2","newuser2@clarape.co", LocalDate.of(1992,2,2));
-		Users test3 = new Users("NewUser3","newuser3@clarape.co", LocalDate.of(1993,3,3));
+		Users test3 = new Users("NewUser3","newuser2@clarape.co", LocalDate.of(1993,3,3));
 
 		List<Users> users = Arrays.asList(test1,test2,test3);
-		userService.saveTransactional(users);
+
+		try {
+			userService.saveTransactional(users);	
+		} catch (Exception e) {
+			LOGGER.error("######## Excepción::" + e.getMessage());
+		}
+		
 
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
