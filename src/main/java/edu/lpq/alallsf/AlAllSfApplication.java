@@ -61,11 +61,11 @@ public class AlAllSfApplication implements CommandLineRunner {
 	}
 
 	private void saveUserInDB(){
-		Users user1 = new Users("user1",
-				"user1@clarape.co",
+		Users user1 = new Users("Leonel",
+				"leonel@clarape.co",
 				LocalDate.of(1981,1,1)
 				);
-		Users user2 = new Users("user2",
+		Users user2 = new Users("Leonel",
 				"user2@clarape.co",
 				LocalDate.of(1982,2,2)
 		);
@@ -132,7 +132,14 @@ public class AlAllSfApplication implements CommandLineRunner {
 		userRepository.findAndSort("user1", Sort.by("id").descending())
 			.stream()
 			.forEach(user -> LOGGER.info("=====Usuario del metodo ::findAndSort::" + user.toString()));
+
 		
+		userRepository.findByName("Leonel")	
+			.forEach(user -> LOGGER.info("=====Usuario con query method::" + user.toString()));		
+
+		LOGGER.info("=====Usuario por findByEmailAndName::" + userRepository.findByEmailAndName("leonel@clarape.co","Leonel")
+			.orElseThrow(()-> new RuntimeException("No se encontró el usuario")));
+		 
 				
 	}
 	public void runEjemplosAnteriores01(String... args) throws Exception {
