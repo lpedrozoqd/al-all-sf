@@ -5,6 +5,7 @@ import edu.lpq.alallsf.bean.MyBeanWithDependency;
 import edu.lpq.alallsf.component.ComponentDependency;
 import edu.lpq.alallsf.entity.Users;
 import edu.lpq.alallsf.repository.UserRepository;
+import edu.lpq.alallsf.services.UserService;
 import edu.lpq.alallsf.utils.UserData;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -29,6 +30,8 @@ public class AlAllSfApplication implements CommandLineRunner {
 	private MyBeanWithDependency myBeanWithDependency;
 	private UserData userData;
 	private UserRepository userRepository;
+	private UserService userService;
+	
 
 	/**
 	 * Esta anotación @Qualifier("componentTwoImplement") permite
@@ -44,12 +47,14 @@ public class AlAllSfApplication implements CommandLineRunner {
 							  MyBean myBean,
 							  MyBeanWithDependency myBeanWithDependency,
 							  UserData userData,
-							  UserRepository userRepository){
+							  UserRepository userRepository,
+							  UserService userService){
 		this.componentDependency = componentDependency;
 		this.myBean	= myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
 		this.userData = userData;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(AlAllSfApplication.class, args);
@@ -58,6 +63,8 @@ public class AlAllSfApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		saveUserInDB();
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		getInformationJpqlFromUser();
 	}
 
 	private void saveUserInDB(){
@@ -112,14 +119,10 @@ public class AlAllSfApplication implements CommandLineRunner {
 
 		List<Users> listUsers = Arrays.asList(user1,user2,user3,user4,user5,
 				user6,user7,user8,user9,user10,user11,user12);
-		System.out.println(">>>>>>>>>>>>>>>>>> 1.1- Iniciando carga datos...");
+		System.out.println(">>>>>>>>>>>>>>>>>> 1- Iniciando carga datos...");
 		listUsers.stream()
 				.forEach(userRepository::save);
-		System.out.println(">>>>>>>>>>>>>>>>>> 2-2- Finalizando carga datos...");
-		System.out.println(">>>>>>>>>>>>>>>>>> 2.1 Iniciando consulta de User...");
-		getInformationJpqlFromUser();
-		System.out.println(">>>>>>>>>>>>>>>>>> 2.2 Finalizando carga datos...");
-		
+		System.out.println(">>>>>>>>>>>>>>>>>> 2- Finalizando carga datos...");
 	}
 
 	private void getInformationJpqlFromUser(){
@@ -166,9 +169,12 @@ public class AlAllSfApplication implements CommandLineRunner {
 
 
 		//$$ Ejercicio #9
-		LOGGER.info("=====Usuario por getAllByBirthDateAndEmail::" + userRepository
-			.getAllByBirthDateAndEmail(LocalDate.of(1988, 8, 8), "user8@clarape.co")
-				.orElseThrow(()-> new RuntimeException("No se encontró el usuario por fecha y correo")));
+		// LOGGER.info("=====Usuario por getAllByBirthDateAndEmail::" + userRepository
+		// 	.getAllByBirthDateAndEmail(LocalDate.of(1988, 8, 8), "user8@clarape.co")
+		// 		.orElseThrow(()-> new RuntimeException("No se encontró el usuario por fecha y correo")));
+
+		//$$ Ejercicio #10
+		saveWithErrorTransactional();
 
 
 	}
@@ -182,6 +188,21 @@ public class AlAllSfApplication implements CommandLineRunner {
 		//Creación de dependencia que usa otra dependencia
 		myBeanWithDependency.printWithDependency();
 		System.out.println(userData.getEmail() + " -- " + userData.getPassword());
+	}
+
+	private void saveWithErrorTransactional(){
+		Users test1 = new Users("NewUser1","newuser1@clarape.co", LocalDate.of(1991,1,1));
+		Users test2 = new Users("NewUser2","newuser2@clarape.co", LocalDate.of(1992,2,2));
+		Users test3 = new Users("NewUser3","newuser3@clarape.co", LocalDate.of(1993,3,3));
+
+		List<Users> users = Arrays.asList(test1,test2,test3);
+		userService.saveTransactional(users);
+
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+		userService.getAllUsers()
+			.forEach(user-> 
+				LOGGER.info("=====Usuario dentro del método transaccional: " + user.toString())); 
 	}
 
 
