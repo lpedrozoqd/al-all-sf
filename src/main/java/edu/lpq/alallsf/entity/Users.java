@@ -44,6 +44,26 @@ public class Users {
         return "Users [birthDate=" + birthDate + ", email=" + email + ", name=" + name + "]";
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
     
 
 }

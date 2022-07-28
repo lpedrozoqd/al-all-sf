@@ -24,7 +24,7 @@ public class UserService {
     public void saveTransactional(List<Users> users){
         users.stream()
             .peek(user->LOGGER.info("Usuario insertado: " + user))
-            .forEach(user -> userRepository.save(user));
+            .forEach(userRepository::save);
     }
 
     public List<Users> getAllUsers(){

@@ -72,57 +72,60 @@ public class AlAllSfApplication implements CommandLineRunner {
 				"leonel@clarape.co",
 				LocalDate.of(1981,1,1)
 				);
-		Users user2 = new Users("Leonel",
-				"user2@clarape.co",
-				LocalDate.of(1982,2,2)
-		);
-		Users user3 = new Users("user3",
-				"user3@clarape.co",
-				LocalDate.of(1983,3,3)
-		);
-		Users user4 = new Users("user4",
-				"user4@clarape.co",
-				LocalDate.of(1984,4,4)
-		);
-		Users user5 = new Users("user5",
-				"user5@clarape.co",
-				LocalDate.of(1985,5,5)
-		);
-		Users user6 = new Users("user6",
-				"user6@clarape.co",
-				LocalDate.of(1986,6,6)
-		);
-		Users user7 = new Users("user7",
-				"user7@clarape.co",
-				LocalDate.of(1987,7,7)
-		);
-		Users user8 = new Users("user8",
-				"user8@clarape.co",
-				LocalDate.of(1988,8,8)
-		);
-		Users user9 = new Users("user9",
-				"user9@clarape.co",
-				LocalDate.of(1989,9,9)
-		);
-		Users user10 = new Users("user10",
-				"user10@clarape.co",
-				LocalDate.of(1990,10,10)
-		);
-		Users user11 = new Users("user11",
-				"user11@clarape.co",
-				LocalDate.of(1991,11,11)
-		);
-		Users user12 = new Users("user12",
-				"user12@clarape.co",
-				LocalDate.of(1992,12,12)
-		);
+		// Users user2 = new Users("Leonel",
+		// 		"user2@clarape.co",
+		// 		LocalDate.of(1982,2,2)
+		// );
+		// Users user3 = new Users("user3",
+		// 		"user3@clarape.co",
+		// 		LocalDate.of(1983,3,3)
+		// );
+		// Users user4 = new Users("user4",
+		// 		"user4@clarape.co",
+		// 		LocalDate.of(1984,4,4)
+		// );
+		// Users user5 = new Users("user5",
+		// 		"user5@clarape.co",
+		// 		LocalDate.of(1985,5,5)
+		// );
+		// Users user6 = new Users("user6",
+		// 		"user6@clarape.co",
+		// 		LocalDate.of(1986,6,6)
+		// );
+		// Users user7 = new Users("user7",
+		// 		"user7@clarape.co",
+		// 		LocalDate.of(1987,7,7)
+		// );
+		// Users user8 = new Users("user8",
+		// 		"user8@clarape.co",
+		// 		LocalDate.of(1988,8,8)
+		// );
+		// Users user9 = new Users("user9",
+		// 		"user9@clarape.co",
+		// 		LocalDate.of(1989,9,9)
+		// );
+		// Users user10 = new Users("user10",
+		// 		"user10@clarape.co",
+		// 		LocalDate.of(1990,10,10)
+		// );
+		// Users user11 = new Users("user11",
+		// 		"user11@clarape.co",
+		// 		LocalDate.of(1991,11,11)
+		// );
+		// Users user12 = new Users("user12",
+		// 		"user12@clarape.co",
+		// 		LocalDate.of(1992,12,12)
+		// );
 
-		List<Users> listUsers = Arrays.asList(user1,user2,user3,user4,user5,
-				user6,user7,user8,user9,user10,user11,user12);
+
+		List<Users> listUsers = Arrays.asList(user1);
+
+		// List<Users> listUsers = Arrays.asList(user1,user2,user3,user4,user5,
+		// 		user6,user7,user8,user9,user10,user11,user12);
 		System.out.println(">>>>>>>>>>>>>>>>>> 1- Iniciando carga datos...");
 		listUsers.stream()
 				.forEach(userRepository::save);
-		System.out.println(">>>>>>>>>>>>>>>>>> 2- Finalizando carga datos...");
+		System.out.println(">>>>>>>>>>>>>>>>>> 2- Finalizando carga datos..."); 
 	}
 
 	private void getInformationJpqlFromUser(){
@@ -193,7 +196,7 @@ public class AlAllSfApplication implements CommandLineRunner {
 	private void saveWithErrorTransactional(){
 		Users test1 = new Users("NewUser1","newuser1@clarape.co", LocalDate.of(1991,1,1));
 		Users test2 = new Users("NewUser2","newuser2@clarape.co", LocalDate.of(1992,2,2));
-		Users test3 = new Users("NewUser3","newuser2@clarape.co", LocalDate.of(1993,3,3));
+		Users test3 = new Users("NewUser3","newuser3@clarape.co", LocalDate.of(1993,3,3));
 
 		List<Users> users = Arrays.asList(test1,test2,test3);
 
@@ -204,11 +207,11 @@ public class AlAllSfApplication implements CommandLineRunner {
 		}
 		
 
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		// System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
-		userService.getAllUsers()
-			.forEach(user-> 
-				LOGGER.info("=====Usuario dentro del método transaccional: " + user.toString())); 
+		// userService.getAllUsers()
+		// 	.forEach(user-> 
+		// 		LOGGER.info("=====Usuario dentro del método transaccional: " + user.toString())); 
 	}
 
 

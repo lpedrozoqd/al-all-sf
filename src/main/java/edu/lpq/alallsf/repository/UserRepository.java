@@ -36,6 +36,7 @@ public interface UserRepository extends JpaRepository<Users,Long> {
 
     List<Users> findByNameContainingOrderByIdDesc(String name);
 
+    List<Users> findAll();
    
     @Query("SELECT new edu.lpq.alallsf.dto.UserDTO(u.id, u.name, u.birthDate)" +
         " FROM Users u" +
