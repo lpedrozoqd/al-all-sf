@@ -1,1 +1,1 @@
-# al-all-sf (Spring Boot)
+# al-all-sf (Spring Boot Basic)
