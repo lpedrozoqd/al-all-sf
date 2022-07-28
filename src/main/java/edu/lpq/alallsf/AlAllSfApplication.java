@@ -160,9 +160,15 @@ public class AlAllSfApplication implements CommandLineRunner {
 
 
 		//$$ Ejercicio #8
-		userRepository
-			.findByNameContainingOrderByIdDesc("Leo")		
-				.forEach(user -> LOGGER.info("======Usuario findByNameContainingOrderByIdDesc:: " + user.toString()));
+		// userRepository
+		// 	.findByNameContainingOrderByIdDesc("Leo")		
+		// 		.forEach(user -> LOGGER.info("======Usuario findByNameContainingOrderByIdDesc:: " + user.toString()));
+
+
+		//$$ Ejercicio #9
+		LOGGER.info("=====Usuario por getAllByBirthDateAndEmail::" + userRepository
+			.getAllByBirthDateAndEmail(LocalDate.of(1988, 8, 8), "user8@clarape.co")
+				.orElseThrow(()-> new RuntimeException("No se encontró el usuario por fecha y correo")));
 
 
 	}
