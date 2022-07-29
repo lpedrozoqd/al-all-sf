@@ -1,6 +1,7 @@
 package edu.lpq.alallsf.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -31,5 +32,26 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Users save(Users newUser){
+        return userRepository.save(newUser);
+    }
+
+    public void delete(Long id){
+        userRepository.delete(new Users(id));
+    }
+
+    public Users update(Users newUser, Long id) {
+       return userRepository.findById(id)
+                .map(
+                    user -> {
+                        user.setEmail(newUser.getEmail());
+                        user.setBirthDate(newUser.getBirthDate());
+                        user.setName(newUser.getName());
+                        return userRepository.save(newUser);
+                    }
+                ).get();
     
+    }
+    
+
 }

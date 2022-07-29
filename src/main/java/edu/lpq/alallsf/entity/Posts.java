@@ -2,6 +2,8 @@ package edu.lpq.alallsf.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="post")
 public class Posts {
@@ -14,6 +16,7 @@ public class Posts {
     private String description;
 
     @ManyToOne
+    @JsonBackReference
     private Users user;
 
     public Posts() {

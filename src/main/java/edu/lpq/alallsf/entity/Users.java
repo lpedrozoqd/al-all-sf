@@ -1,5 +1,6 @@
 package edu.lpq.alallsf.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -26,7 +27,8 @@ public class Users {
     private LocalDate birthDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference //Esta anotación es para que no obtener error cuando se consulta dicho campo. Profundización más adelante.
+    @JsonManagedReference
+    @JsonIgnore
     private List<Posts> posts = new ArrayList<>();
 
 
@@ -37,6 +39,10 @@ public class Users {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
+    }
+
+    public Users(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -62,6 +68,26 @@ public class Users {
 
     public List<Posts> getPosts() {
         return posts;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
     }
 
     

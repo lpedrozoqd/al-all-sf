@@ -42,6 +42,7 @@ public interface UserRepository extends JpaRepository<Users,Long> {
         " FROM Users u" +
         " where u.birthDate=:parameterFecha " +
         " and u.email=:parameterEmail ")
+
     Optional<UserDTO> getAllByBirthDateAndEmail(@Param("parameterFecha") LocalDate fechaInicio,
         @Param("parameterEmail") String email); 
 

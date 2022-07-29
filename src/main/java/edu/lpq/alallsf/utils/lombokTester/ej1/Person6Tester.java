@@ -2,7 +2,7 @@ package edu.lpq.alallsf.utils.lombokTester.ej1;
 
 public class Person6Tester {
     public static void main(String[] args) {
-
+        /*
         Person6 p;
         Person6.Person6Builder builder = Person6.builder();
         builder.id(1);
@@ -12,7 +12,7 @@ public class Person6Tester {
         p = builder.build();
 
         System.out.println(p.toString());
-
+        */
 
 
     }
